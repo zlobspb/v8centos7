@@ -31,13 +31,11 @@ if [ -d %{buildroot}%{__prefix}/%{name} ]; then
   echo "Cleaning out stale build directory" 1>&2
   rm -rf %{buildroot}%{__prefix}/%{name}
 fi
-#%setup -TDn /src
 
 %build
 git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git --depth=1
 export PATH=$PATH:$PWD/depot_tools
-fetch v8
-cd v8
+fetch v8 && cd v8
 git checkout %{version}
 gclient sync
 tools/dev/v8gen.py x64.release --no-goma -- \
